@@ -6,15 +6,30 @@ window.addEventListener('load', function() {
 	
 	// new user
 	signUpButton.addEventListener('click', function() {
-		const email = document.getElementById('email').value;
-		const password = document.getElementById('password').value;
-        const createUserPromise =
-		firebase.auth().createUserWithEmailAndPassword(email, password);
-        
-        createUserPromise.then();
-        
-        
-        createUserPromise.catch();
+
+		const email = emailAuth.value;
+		const password = passwordAuth.value;
+		const auth = firebase.auth();
+		const createUserPromise = auth.createUserWithEmailAndPassword(email, password);
+		
+		// promise reponse
+		createUserPromise.then(function(credential){
+			const id = credential.user.uid;
+			const db = firebase.database();
+			const ref = db.ref('users').child(id);
+			const userInfo = {
+				displayName: userNameAuth.value		
+			};
+			ref.set(userInfo);
+			credential.user.updateProfile(userInfo)
+				.then(displayUserInfo);
+		});
+		
+		// promise error
+		createUserPromise.catch(function(error) {
+			alert(error.message);	
+		});
+
 	});
 	
 	// log in
