@@ -1,1 +1,18 @@
 @import 'layout.css';
+#container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+#header {
+    grid-column-start 1;
+    grid-column-end 12;
+}
+
+#sidebar {
+grid-column
+}
+
+#footer {
+
+}

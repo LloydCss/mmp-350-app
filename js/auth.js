@@ -1,66 +1,32 @@
 window.addEventListener('load', function() {
 	
-	const userNameAuth = document.getElementById('username');
-	const emailAuth = document.getElementById('email');
-	const passwordAuth = document.getElementById('password');
 	const signUpButton = document.getElementById('sign-up');
 	const logInButton = document.getElementById('login');
 	const logOutButton = document.getElementById('logout');
 	
-	firebase.auth().onAuthStateChanged(function(user) {
-		if (user) {
-			displayUserInfo();
-		}
-	});
-	
-	function displayUserInfo() {
-		document.getElementById('display-name').textContent = "Welcome, " + firebase.auth().currentUser.displayName;
-		document.getElementById('user-info').style.display = 'block';
-		document.getElementById('auth').style.display = 'none';
-	}
-	
 	// new user
 	signUpButton.addEventListener('click', function() {
-		const email = emailAuth.value;
-		const password = passwordAuth.value;
-		const auth = firebase.auth();
-		const createUserPromise = auth.createUserWithEmailAndPassword(email, password);
-		
-		// promise reponse
-		createUserPromise.then(function(credential){
-			const id = credential.user.uid;
-			const db = firebase.database();
-			const ref = db.ref('users').child(id);
-			const userInfo = {
-				displayName: userNameAuth.value		
-			};
-			ref.set(userInfo);
-			credential.user.updateProfile(userInfo);
-		});
-		
-		// promise error
-		createUserPromise.catch(function(error) {
-			alert(error.message);	
-		});
+		const email = document.getElementById('email').value;
+		const password = document.getElementById('password').value;
+        const createUserPromise =
+		firebase.auth().createUserWithEmailAndPassword(email, password);
+        
+        createUserPromise.then();
+        
+        
+        createUserPromise.catch();
 	});
 	
 	// log in
 	logInButton.addEventListener('click', function() {
-		const email = emailAuth.value;
-		const password = passwordAuth.value;
-		const auth = firebase.auth();
-		const signInPromise = auth.signInWithEmailAndPassword(email, password);
-		signInPromise.then(displayUserInfo);
-		signInPromise.catch(function(error) {
-			alert(error.message);
-		});
+		const email = document.getElementById('email').value;
+		const password = document.getElementById('password').value;
+		firebase.auth().signInWithEmailAndPassword(email, password);
 	});
 	
 	// log out
 	logOutButton.addEventListener('click', function() {
 		firebase.auth().signOut();
-		document.getElementById('user-info').style.display = 'none';
-		document.getElementById('auth').style.display = 'block';
 	});
 	
 });
