@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-@import 'layout.css';
 #container {
     display: grid;
     grid-template-columns: 70% 30%;
@@ -17,7 +15,4 @@ grid-column
 #footer {
 
 }
-=======
-@import 'layout-grid-areas.css';
-@import 'typography.css';
->>>>>>> da3f3079d88811fd341c4dd7344bd34ca8d16906
+

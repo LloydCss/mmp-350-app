@@ -5,10 +5,10 @@ window.addEventListener('load', function() {
 	const postRef = firebase.database().ref('posts');
 	
 	postRef.on('child_added', function(snapshot) {
-		createPost(snapshot.val());
+		createPost(snapshot.key, snapshot.val());
 	});
 	
-	function createPost(post) {
+	function createPost(key, post) {
 		
 		// post container
 		const postDiv = document.createElement('div');
@@ -38,6 +38,60 @@ window.addEventListener('load', function() {
 		
 		postDiv.appendChild(postText);
 		postDiv.appendChild(postInfo);
+		
+		// likes 
+		const likesDiv = document.createElement('div');
+		likesDiv.classList.add('likes');
+		
+		const likeBtn = document.createElement('button');
+		likeBtn.classList.add('like-btn');
+		likeBtn.textContent = "Like";
+		
+		const unlikeBtn = document.createElement('button');
+		unlikeBtn.classList.add('unlike-btn');
+		unlikeBtn.textContent = "UnLike";
+		
+		const likesDisplay = document.createElement('span');
+		likesDisplay.classList.add('likes-display');
+		
+		if (post.likes) {
+			likesDisplay.textContent = Object.keys(post.likes).length + " Likes";
+		} else {
+			likesDisplay.textContent = '0 likes';
+		}
+		
+		likesDiv.appendChild(likeBtn);
+		likesDiv.appendChild(unlikeBtn);
+		likesDiv.appendChild(likesDisplay);
+		postDiv.appendChild(likesDiv);
+		
+		likeBtn.addEventListener('click', function() {
+			likeOrUnLike(true);
+		});
+		
+		unlikeBtn.addEventListener('click', function() {
+			likeOrUnLike(false);
+		});
+		
+		function likeOrUnLike(isLike) {
+			if (firebase.auth().currentUser) {
+				const uid = firebase.auth().currentUser.uid;
+				const likeRef = firebase.database().ref('posts').child(key).child('likes').child(uid);
+				let likePromise;
+				if (isLike) {
+					likePromise = likeRef.set(true);
+				} else {
+					likePromise = likeRef.remove();	
+				}
+				likePromise.then(function() {
+					location.reload();
+				});
+			} else {
+				alert("Please login to like a post");
+			}
+		}
+		
+		
 		
 		postsDiv.insertBefore(postDiv, postsDiv.firstElementChild);
 	}
