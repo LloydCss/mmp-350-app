@@ -1,23 +1,7 @@
-<<<<<<< HEAD
+
 @import 'layout.css';
-#container {
-    display: grid;
-    grid-template-columns: 70% 30%;
-}
 
-#header {
-    grid-column-start 1;
-    grid-column-end 12;
-}
 
-#sidebar {
-grid-column
-}
 
-#footer {
-
-}
-=======
-@import 'layout-grid-areas.css';
 @import 'typography.css';
->>>>>>> da3f3079d88811fd341c4dd7344bd34ca8d16906
+@import 'color.css'
