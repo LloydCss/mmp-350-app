@@ -4,6 +4,23 @@ window.addEventListener('load', function() {
 	const logInButton = document.getElementById('login');
 	const logOutButton = document.getElementById('logout');
 	
+<<<<<<< HEAD
+=======
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			document.getElementById('display-name').textContent = "Welcome, " + firebase.auth().currentUser.displayName;
+			
+			document.body.classList.add('user-logged-in');
+			document.body.classList.remove('no-user');
+		} else {
+			document.body.classList.add('no-user');
+			document.body.classList.remove('user-logged-in');
+		}
+	});
+	
+
+	
+>>>>>>> 678d5261af697e6b11cc8648b6a724a7dc189a39
 	// new user
 	signUpButton.addEventListener('click', function() {
 
